@@ -38,3 +38,8 @@ export interface IOrder extends IBuyer {
   items: string[];
   total: number;
 }
+
+export interface IProductList {
+  total: number;
+  items: IProduct[];
+}

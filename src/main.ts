@@ -4,16 +4,17 @@ import { BasketData } from "./components/Models/BasketData";
 import { ProductData } from "./components/Models/ProductData";
 import { BuyerData } from "./components/Models/BuyerData";
 import { Api } from "./components/base/Api";
-import { WebLarekAPI } from "./components/Models/WebLarekAPI";
+import { WebLarekAPI } from "./components/Services/WebLarekAPI";
 import { API_URL, CDN_URL } from "./utils/constants";
+import { IProduct } from "./types";
 //Здравствуйте спасибо за проверку, я исправил все ошибки, которые были в коде.//
 const api = new Api(API_URL);
-const webLarekApi = new WebLarekAPI(CDN_URL, api);
+const webLarekApi = new WebLarekAPI(api);
 
 webLarekApi
   .getProductList()
-  .then((products) => {
-    const productsWithImages = products.map((item) => ({
+  .then((data) => {
+    const productsWithImages = data.items.map((item: IProduct) => ({
       ...item,
       image: CDN_URL + item.image,
     }));
@@ -82,10 +83,10 @@ console.log(
 const buyerModel = new BuyerData();
 
 buyerModel.clear();
-console.log("Ошибки в пустой модели:", buyerModel.validateBuyer()); 
+console.log("Ошибки в пустой модели:", buyerModel.validateBuyer());
 
 buyerModel.setBuyerData({
-  payment: null, 
+  payment: null,
   address: "ул. Пушкина",
   phone: "+7 (999) 123-45-67",
   email: "buyer@example.com",
