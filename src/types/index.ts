@@ -23,7 +23,7 @@ export interface IProduct {
 export type TPayment = "card" | "cash";
 
 export interface IBuyer {
-  payment: TPayment;
+  payment: TPayment | null;
   address: string;
   phone: string;
   email: string;
@@ -36,4 +36,5 @@ export interface IOrderResult {
 
 export interface IOrder extends IBuyer {
   items: string[];
+  total: number;
 }

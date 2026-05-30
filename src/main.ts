@@ -6,13 +6,23 @@ import { BuyerData } from "./components/Models/BuyerData";
 import { Api } from "./components/base/Api";
 import { WebLarekAPI } from "./components/Models/WebLarekAPI";
 import { API_URL, CDN_URL } from "./utils/constants";
-
+//Здравствуйте спасибо за проверку, я исправил все ошибки, которые были в коде.//
 const api = new Api(API_URL);
 const webLarekApi = new WebLarekAPI(CDN_URL, api);
 
-webLarekApi.getProductList().then((products) => {
-  console.log(products);
-});
+webLarekApi
+  .getProductList()
+  .then((products) => {
+    const productsWithImages = products.map((item) => ({
+      ...item,
+      image: CDN_URL + item.image,
+    }));
+
+    console.log(productsWithImages);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 const basket = new BasketData();
 
@@ -36,9 +46,7 @@ console.log(
   basket.getItems(),
 );
 
-
 basket.removeItem(productFromApi.id);
-
 
 console.log(
   `Массив после удаления (длина ${basket.getAmount()}):`,
@@ -73,16 +81,21 @@ console.log(
 
 const buyerModel = new BuyerData();
 
+buyerModel.clear();
+console.log("Ошибки в пустой модели:", buyerModel.validateBuyer()); 
+
 buyerModel.setBuyerData({
-  payment: "card",
-  address: "ул. Пушкина, д. Колотушкина",
+  payment: null, 
+  address: "ул. Пушкина",
   phone: "+7 (999) 123-45-67",
   email: "buyer@example.com",
 });
-console.log(`данные покупателя:`, buyerModel.getBuyerData());
+console.log("Ошибки при пропущенном payment:", buyerModel.validateBuyer());
 
-buyerModel.clear();
-console.log("Ошибки после clear():", buyerModel.validateBuyer());
-
-buyerModel.validateBuyer(); /* валидация данных покупателя*/
-console.log(`валидация данных покупателя:`, buyerModel.validateBuyer());
+buyerModel.setBuyerData({
+  payment: "card",
+  address: "ул. Пушкина",
+  phone: "+7 (999) 123-45-67",
+  email: "buyer@example.com",
+});
+console.log("Заполненные данные:", buyerModel.validateBuyer());

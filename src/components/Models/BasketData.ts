@@ -1,41 +1,35 @@
 import { IProduct } from "../../types/index";
 
 export class BasketData {
-  private _items: IProduct[] = [];
+  private items: IProduct[] = [];
 
   getItems(): IProduct[] {
-    return this._items;
+    return this.items;
   }
 
   addItem(product: IProduct): void {
-    this._items.push(product);
+    this.items.push(product);
   }
 
   removeItem(id: string): void {
-    this._items = this._items.filter((item) => item.id !== id);
+    this.items = this.items.filter((item) => item.id !== id);
   }
 
   getAmount(): number {
-    return this._items.length;
+    return this.items.length;
   }
 
   getTotalPrice(): number {
-    let sum = 0;
-
-    for (const item of this._items) {
-      sum += Number(item.price !== null ? item.price : 0);
-    }
-
-    return sum;
+    return this.items.reduce((sum, item) => sum + (item.price ?? 0), 0);
   }
 
   hasItem(id: string): boolean {
-    return this._items.some((item) => item.id === id);
+    return this.items.some((item) => item.id === id);
   }
 
   clearItems(): boolean {
-    if (this._items.length === 0) return false;
-    this._items = [];
+    if (this.items.length === 0) return false;
+    this.items = [];
     return true;
   }
 }
