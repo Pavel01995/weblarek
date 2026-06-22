@@ -1,13 +1,22 @@
+// Импорты типов
+import { API_URL, CDN_URL } from "./utils/constants";
+import { IProduct } from "./types";
 import "./scss/styles.scss";
 import { apiProducts } from "./utils/data";
+// Импорты слоя MODELS
 import { BasketData } from "./components/Models/BasketData";
 import { ProductData } from "./components/Models/ProductData";
 import { BuyerData } from "./components/Models/BuyerData";
+// Импорты слоя SERVICES
 import { Api } from "./components/base/Api";
 import { WebLarekAPI } from "./components/Services/WebLarekAPI";
-import { API_URL, CDN_URL } from "./utils/constants";
-import { IProduct } from "./types";
-//Здравствуйте спасибо за проверку, я исправил все ошибки, которые были в коде.//
+// Импорты слоя VIEW
+
+
+
+
+
+
 const api = new Api(API_URL);
 const webLarekApi = new WebLarekAPI(api);
 
@@ -100,3 +109,6 @@ buyerModel.setBuyerData({
   email: "buyer@example.com",
 });
 console.log("Заполненные данные:", buyerModel.validateBuyer());
+
+
+

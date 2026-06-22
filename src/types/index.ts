@@ -11,6 +11,7 @@ export interface IApi {
 
 export type FormErrors = Partial<Record<keyof IBuyer, string>>;
 
+// Models
 export interface IProduct {
   id: string;
   description: string;
@@ -42,4 +43,49 @@ export interface IOrder extends IBuyer {
 export interface IProductList {
   total: number;
   items: IProduct[];
+}
+
+
+
+//View 
+export interface IBasketView{
+items:HTMLElement[];
+total:number;
+}
+
+export interface ICardBasketView{
+title:string;
+price:number|null;
+index:number;
+}
+
+export interface ICardCatalogView{
+title:string;
+price:number|null;
+image:string;
+category:string;
+}
+
+export interface  ICardPreview extends ICardCatalogView{
+description:string;
+}
+
+export interface IOrderFormView{
+payment:'card'|'cash';
+address:string;
+errors:string[];
+}
+
+export interface IContactFormView{
+email:string;
+phone:string;
+errors:string;
+}
+
+export interface ISuccessView {
+  total: number;
+}
+
+export interface ISuccessActions {
+  onClick: () => void;
 }
