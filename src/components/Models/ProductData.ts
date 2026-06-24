@@ -1,8 +1,10 @@
 import { IProduct } from "../../types/index";
-
+import { IEvents } from "../base/Events";
 export class ProductData {
   private productsItems: IProduct[] = [];
   private previewItem: IProduct | null = null;
+
+constructor(protected events: IEvents) {}
 
   get products(): IProduct[] {
     return this.productsItems;
@@ -10,14 +12,17 @@ export class ProductData {
 
   set products(value: IProduct[]) {
     this.productsItems = value;
+    this.events.emit('catalog:changed', { products: this.productsItems });
   }
 
   get preview(): IProduct | null {
     return this.previewItem;
+    
   }
 
   set preview(product: IProduct) {
     this.previewItem = product;
+    this.events.emit('preview:changed', { product });
   }
 
   getProduct(id: string): IProduct | undefined {

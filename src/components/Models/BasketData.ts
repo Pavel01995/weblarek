@@ -11,10 +11,12 @@ constructor(protected events: IEvents) {}
 
   addItem(product: IProduct): void {
     this.items.push(product);
+    this.events.emit('basket:changed', { items: this.items });
   }
 
   removeItem(id: string): void {
     this.items = this.items.filter((item) => item.id !== id);
+  this.events.emit('basket:changed', { items: this.items });
   }
 
   getAmount(): number {
@@ -32,6 +34,8 @@ constructor(protected events: IEvents) {}
   clearItems(): boolean {
     if (this.items.length === 0) return false;
     this.items = [];
+    this.events.emit('basket:changed', { items: this.items });
     return true;
+    
   }
 }

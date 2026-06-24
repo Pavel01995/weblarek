@@ -518,9 +518,10 @@ errors:string;
 
 
 
-## События, генерируемые классами представления (View)
+## События, генерируемые классами представления (View)  и (Model)
 
-
+**View**
+---
 ### Класс Header
 `this.events.emit('basket:open')`-вызывается при клике на иконку корзины.
 
@@ -561,6 +562,25 @@ errors:string;
 
 
 
+**Model**
+---
+### Класс ProductData 
+`set products(value)` — сохраняет товары и генерирует событие catalog:changed для отрисовки карточек на главной странице.
+
+`set preview(product)` — сохраняет выбранный товар и генерирует событие preview:changed для открытия модального окна карточки.
 
 
 
+### Класс BasketData 
+`addItem(product)` — добавляет товар в корзину и генерирует событие basket:changed.
+
+`removeItem(id)` — удаляет товар из корзины и генерирует событие basket:changed.
+
+`clearItems()` — очищает корзину и генерирует событие basket:changed.
+
+
+
+### Класс BuyerData
+`setBuyerData(data)` — записывает данные полей формы, запускает валидацию и генерирует событие buyer:errors.
+
+`clear()` — сбрасывает данные и очищает ошибки через событие buyer:errors.
