@@ -48,6 +48,12 @@ export interface IProductList {
 
 
 //View 
+export interface IHeader{
+counter:number
+
+}
+
+
 export interface IBasketView{
 items:HTMLElement[];
 total:number;
@@ -66,7 +72,7 @@ image:string;
 category:string;
 }
 
-export interface  ICardPreview extends ICardCatalogView{
+export interface  ICardPreviewView extends ICardCatalogView{
 description:string;
 }
 
@@ -88,4 +94,8 @@ export interface ISuccessView {
 
 export interface ISuccessActions {
   onClick: () => void;
+}
+
+export interface IModalData {
+    content: HTMLElement;
 }

@@ -7,7 +7,7 @@ import { apiProducts } from "./utils/data";
 import { BasketData } from "./components/Models/BasketData";
 import { ProductData } from "./components/Models/ProductData";
 import { BuyerData } from "./components/Models/BuyerData";
-// Импорты слоя SERVICES
+// Импорты слоя SERVICE
 import { Api } from "./components/base/Api";
 import { WebLarekAPI } from "./components/Services/WebLarekAPI";
 // Импорты слоя VIEW
@@ -15,8 +15,7 @@ import { WebLarekAPI } from "./components/Services/WebLarekAPI";
 
 
 
-
-
+/// SERVICE
 const api = new Api(API_URL);
 const webLarekApi = new WebLarekAPI(api);
 
@@ -34,6 +33,8 @@ webLarekApi
     console.error(err);
   });
 
+
+/// MODELS
 const basket = new BasketData();
 
 const productFromApi = apiProducts.items[0];
@@ -111,4 +112,5 @@ buyerModel.setBuyerData({
 console.log("Заполненные данные:", buyerModel.validateBuyer());
 
 
+/// VIEWS
 
