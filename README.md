@@ -518,6 +518,47 @@ errors:string;
 
 
 
+## События, генерируемые классами представления (View)
+
+
+### Класс Header
+`this.events.emit('basket:open')`-вызывается при клике на иконку корзины.
+
+
+### Класс Modal
+`this.events.emit('modal:close')`-вызыватеся при закрытие окна (клик на крестик) после доступна прокрутка страницы.
+
+`this.events.emit('modal:open)`-вызывается при открытии окна, после прокрутка страницы блокируется.
+
+
+### Класс Success
+`success:close`-генерируется при нажатии кнопки закрытия в окне успешной покупки
+
+
+### Класс Basket 
+  `this.events.emit('order:open')`-генерируется при нажатии на кнопку «Оформить» в корзине. 
+
+### Клас CardBasket
+`this.events.emit('card:remove', { card: this })`-генерируется при клике на кнопку удаления товара (иконку корзины).
+
+### Класс CardCatalog
+ `this.events.emit('card:select', { card: this })`-генерируется при клике по  карточки и открывает модальное окно.
+
+### Класс CardPrewiev 
+`this.events.emit('card:buy', { card: this })` - генерируется  при клике на кнопку карточки в модальном окне.
+
+### Абстрактный  класс  Form
+ `this.events.emit(`${this.container.getAttribute('name')}:submit`)`- сигнализирует о том, что данные формы окончательно заполнены и подтверждены.
+
+ `this.events.emit(`${this.container.getAttribute('name')}:${field}-changed`, {
+                field,
+                value,
+            });`- передает объект с именем измененного поля
+
+
+### Класс FormOreder 
+ `this.events.emit('order:payment-changed', { target: button.name })`-генерируется при клике на кнопки выбора способа оплаты.
+
 
 
 
