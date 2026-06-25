@@ -560,7 +560,7 @@ errors:string;
 ### Класс FormOreder 
  `this.events.emit('order:payment-changed', { target: button.name })`-генерируется при клике на кнопки выбора способа оплаты.
 
-
+22
 
 **Model**
 ---
