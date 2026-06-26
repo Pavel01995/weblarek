@@ -12,12 +12,12 @@ export class Basket extends Component<IBasketView> {
         super(container);
         this.events = events;
 
-       
+
         this.listContainer = container.querySelector('.basket__list') as HTMLElement;
         this.totalElement = container.querySelector('.basket__price') as HTMLElement;
         this.button = container.querySelector('.basket__button') as HTMLButtonElement;
 
-      
+
         if (this.button) {
             this.button.addEventListener('click', () => {
                 this.events.emit('order:open');
@@ -27,19 +27,25 @@ export class Basket extends Component<IBasketView> {
 
 
     set list(items: HTMLElement[]) {
+
+        this.listContainer.innerHTML = '';
+
         if (items.length > 0) {
-            this.listContainer.replaceChildren(...items);
+
+            this.listContainer.append(...items);
         } else {
-            this.listContainer.replaceChildren(document.createTextNode('Корзина пуста'));
+
+            const emptyMessage = document.createElement('span');
+            emptyMessage.textContent = 'Корзина пуста';
+            this.listContainer.append(emptyMessage);
         }
     }
-
 
     set total(price: number) {
         this.totalElement.textContent = `${price} синапсов`;
     }
 
- 
+
     set locked(value: boolean) {
         if (this.button) {
             this.button.disabled = value;

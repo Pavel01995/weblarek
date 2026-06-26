@@ -9,7 +9,7 @@ export class CardPreview extends CardWithCategory<ICardPreviewView> {
   constructor(container: HTMLElement, events: IEvents) {
     super(container, events);
 
-    this.descriptionElement = container.querySelector('.card__text')as HTMLElement;
+    this.descriptionElement = container.querySelector('.card__text') as HTMLElement;
     this.buttonElement = container.querySelector('.card__button') as HTMLButtonElement;
 
 

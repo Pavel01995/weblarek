@@ -5,9 +5,9 @@ export class Success extends Component<ISuccessView> {
     private totalElement: HTMLElement;
 
     constructor(container: HTMLElement, actions: ISuccessActions) {
-        super(container); 
+        super(container);
 
-       const closeButton = container.querySelector('.order-success__close') as HTMLButtonElement;
+        const closeButton = container.querySelector('.order-success__close') as HTMLButtonElement;
         this.totalElement = container.querySelector('.order-success__description') as HTMLElement;
 
         if (closeButton && actions?.onClick) {

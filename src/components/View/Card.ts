@@ -7,15 +7,15 @@ export abstract class Card<T> extends Component<T> {
     protected priceElement: HTMLElement;
 
     constructor(container: HTMLElement, events: IEvents) {
-        
-      super(container);
+
+        super(container);
         this.events = events;
 
         this.titleElement = container.querySelector('.card__title') as HTMLElement;
         this.priceElement = container.querySelector('.card__price') as HTMLElement;
     }
 
- 
+
 
     set title(value: string) {
         if (this.titleElement) {

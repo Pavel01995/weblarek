@@ -21,12 +21,12 @@ export abstract class CardWithCategory<T> extends Card<T> {
 
   set category(value: string) {
     if (this.categoryElement) {
-     
+
       this.categoryElement.textContent = value;
 
       this.categoryElement.className = 'card__category';
 
-     
+
       const categoryClass = categoryMap[value as keyof typeof categoryMap] || 'card__category_other';
 
 

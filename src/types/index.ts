@@ -48,44 +48,48 @@ export interface IProductList {
 
 
 //View 
-export interface IHeader{
-counter:number
+export interface IHeader {
+  counter: number
 
 }
 
 
-export interface IBasketView{
-items:HTMLElement[];
-total:number;
+export interface IBasketView {
+  list: HTMLElement[];
+  total: number;
+  locked: boolean;
 }
 
-export interface ICardBasketView{
-title:string;
-price:number|null;
-index:number;
+export interface ICardBasketView {
+  title: string;
+  price: number | null;
+  index: number;
 }
 
-export interface ICardCatalogView{
-title:string;
-price:number|null;
-image:string;
-category:string;
+export interface ICardCatalogView {
+  title: string;
+  price: number | null;
+  image: string;
+  category: string;
 }
 
-export interface  ICardPreviewView extends ICardCatalogView{
-description:string;
+export interface ICardPreviewView extends ICardCatalogView {
+  description: string;
+  buttonText: string;
 }
 
-export interface IOrderFormView{
-payment:'card'|'cash';
-address:string;
-errors:string[];
+export interface IOrderFormView {
+  payment: TPayment | null; 
+  address: string;
+  errors: string[];
+  valid: boolean;
 }
 
-export interface IContactFormView{
-email:string;
-phone:string;
-errors:string;
+export interface IContactFormView {
+  email: string;
+  phone: string;
+  errors: string;
+  valid: boolean;
 }
 
 export interface ISuccessView {
@@ -97,5 +101,5 @@ export interface ISuccessActions {
 }
 
 export interface IModalData {
-    content: HTMLElement;
+  content: HTMLElement;
 }

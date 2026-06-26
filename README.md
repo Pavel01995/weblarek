@@ -1,4 +1,6 @@
 https://github.com/Pavel01995/weblarek
+
+
 # Проектная работа "Веб-ларек"
 
 Стек: HTML, SCSS, TS, Vite
@@ -229,71 +231,119 @@ email:string;
 **Слой представления:** отвечает за отображение интерфейса приложения на странице и взаимодействие с пользователем. Классы этого слоя работают напрямую с DOM-разметкой и генерируют события для Презентера при действиях пользователя.
 
 
-### Интерфейсы корзины:
+### Интерфейсы
 
-**Окно корзины:** показывает список добавленных товаров и их итоговая стоимость.
+**Шапка сайта**- счетчик товаров в корзине.
 
 ```typescript
-interface IBasketView{
-items:HTMLElement[];
-total:number;
+interface IHeader {
+  counter: number;
 }
 ```
 
-**Карточки в корзине:** показывет номер товара, его цену, и порядковый номер.
-
+**Окно корзины**-список товаров, общая сумма заказа и статус блокировки.
 ```typescript
-interface ICardBasketView{
-title:string;
-price:number|null;
-index:number;
-}
-```
-
-### Интерфейсы карточки
-
-**Каталог карточек:** показыват список товаров на главной.
-
-```typescript
-interface ICardCatalogView{
-title:string;
-price:number;
-image:string;
-category:string;
-}
-```
-
-**Выбранная карточка:** показыват всю информацию об выбраном товаре.
-
-```typescript
-interface  ICardPreview extends ICardCatalogView{
-description:string;
-}
-```
-
-### Интерфейсы формы
-
-**Форма заказа:** предлагает выбор оплаты, и адресс доставки.
-
-```typescript
-interface IOrderFormView{
-payment:'card'|'cash';
-address:string;
-errors:string;
-}
-```
-
-**Форма контакта:** передать контактную информацию.
-
-```typescript
-interface IContactFormView{
-email:string;
-phone:string;
-errors:string;
+interface IBasketView {
+  list: HTMLElement[];
+  total: number;
+  locked: boolean;
 }
 ```
 
 
+
+**Карточки в корзине:** порядковый номер, название и цена.
+
+```typescript
+interface ICardBasketView {
+  title: string;
+  price: number | null;
+  index: number;
+}
+```
+
+**Каталог карточек:** название, цена, картинка и категория.
+
+```typescript
+interface ICardCatalogView {
+  title: string;
+  price: number | null;
+  image: string;
+  category: string;
+}
+```
+
+
+
+**Выбранная карточка** расширенная версия карточки, описание товара и текст на кнопке.
+
+```typescript
+interface ICardPreviewView extends ICardCatalogView {
+  description: string;
+  buttonText: string;
+}
+```
+
+**Форма заказа:**выбор способа оплаты, адрес доставки, список ошибок и статус валидности.
+
+```typescript
+interface IOrderFormView {
+  payment: TPayment | null;
+  address: string;
+  errors: string[];
+  valid: boolean;
+}
+```
+**Форма контакта** контактная информация покупателя, список ошибок и статус валидности.
+
+```typescript
+interface IContactFormView {
+  email: string;
+  phone: string;
+  errors: string[];
+  valid: boolean;
+}
+```
+**Экран успеха:**итоговая сумма после успешного заказа.
+
+```typescript
+interface ISuccessView {
+  total: number;
+}
+```
+
+**Действия форм**:обработчики ввода данных и отправки формы.
+
+```typescript
+interface IFormActions {
+  onInputChange?: (field: string, value: string) => void;
+  onSubmit?: () => void;
+}
+```
+
+**Действия карточек**обработчики клика и удаления товара.
+
+```typescript
+interface ICardActions {
+  onClick?: (event: MouseEvent) => void;
+  onDelete?: () => void;
+}
+```
+
+**Действия экрана успеха** обработчик закрытия окна.
+
+```typescript
+interface ISuccessActions {
+  onClick: () => void;
+}
+```
+**Модальное окно** контейнер для отображения контента.
+
+```typescript
+interface IModalData {
+  content: HTMLElement;
+}
+```
 ---
 ### Абстрактный класс Component
 **Назначение:** является базовым классом для все компонентов слоя `View`.Содержит в себе общую логику работы с DOM-элементами, избавляя дочерние классы от дублирования. Класс является `дженериком` принимает тип данных `<Т>`, которые передает в методы.
@@ -482,7 +532,7 @@ errors:string;
 
 **Поля классов**
 
-` private title:HTMLElement`-заголовок корзины.
+`private title:HTMLElement`-заголовок корзины.
 `private list:HTMLELement`- контейнер куда будут вставляться списки.
 `private total:HTMLElement`-итоговая сумма.
 `private button:HTMLBUuttonElement`-кнопка оформить.
@@ -523,44 +573,42 @@ errors:string;
 **View**
 ---
 ### Класс Header
-`this.events.emit('basket:open')`-вызывается при клике на иконку корзины.
+`basket:open `— вызывается при клике на иконку корзины в шапке сайта.
 
 
 ### Класс Modal
-`this.events.emit('modal:close')`-вызыватеся при закрытие окна (клик на крестик) после доступна прокрутка страницы.
+`modal:close` — вызывается при закрытии модального окна (клик на крестик или оверлей, разблокирует прокрутку).
 
-`this.events.emit('modal:open)`-вызывается при открытии окна, после прокрутка страницы блокируется.
+`modal:open` — вызывается при открытии модального окна (используется, например, для блокировки прокрутки страницы).
 
 
 ### Класс Success
-`success:close`-генерируется при нажатии кнопки закрытия в окне успешной покупки
+`success:close` — генерируется при нажатии кнопки «За  новыми покупками» в окне успешной покупки (используется для очистки корзины и закрытия окна).
 
 
 ### Класс Basket 
-  `this.events.emit('order:open')`-генерируется при нажатии на кнопку «Оформить» в корзине. 
+  `order:open` — генерируется при нажатии на кнопку «Оформить» внутри корзины.
+
 
 ### Клас CardBasket
-`this.events.emit('card:remove', { card: this })`-генерируется при клике на кнопку удаления товара (иконку корзины).
+`this.events.emit('card:remove', { id: this.id })` — генерируется при клике на иконку удаления (корзину) в строке товара. Передаёт данные удаляемого элемента.
 
 ### Класс CardCatalog
- `this.events.emit('card:select', { card: this })`-генерируется при клике по  карточки и открывает модальное окно.
+ `card:select` — генерируется при клике на карточку товара в галерее. Открывает модальное окно с превью.
 
 ### Класс CardPrewiev 
-`this.events.emit('card:buy', { card: this })` - генерируется  при клике на кнопку карточки в модальном окне.
+`card:buy` — генерируется при клике на кнопку («Купить» / «В корзину») на панели детального просмотра товара.
 
 ### Абстрактный  класс  Form
- `this.events.emit(`${this.container.getAttribute('name')}:submit`)`- сигнализирует о том, что данные формы окончательно заполнены и подтверждены.
+`${formName}:${fieldName}`-changed — динамическое событие, генерируется при каждом вводе символа в любое поле формы. Передает объект с именем измененного поля и его текущим значением для валидации.
 
- `this.events.emit(`${this.container.getAttribute('name')}:${field}-changed`, {
-                field,
-                value,
-            });`- передает объект с именем измененного поля
+ `${formName}:submit `— генерируется при отправке (сабмите) формы, сигнализирует о том, что данные формы подтверждены пользователе
 
 
-### Класс FormOreder 
+### Класс FormOrder 
  `this.events.emit('order:payment-changed', { target: button.name })`-генерируется при клике на кнопки выбора способа оплаты.
 
-22
+
 
 **Model**
 ---
@@ -584,3 +632,6 @@ errors:string;
 `setBuyerData(data)` — записывает данные полей формы, запускает валидацию и генерирует событие buyer:errors.
 
 `clear()` — сбрасывает данные и очищает ошибки через событие buyer:errors.
+
+
+

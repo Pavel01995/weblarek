@@ -4,7 +4,7 @@ import { ICardBasketView } from '../../types';
 
 export class CardBasket extends Card<ICardBasketView> {
   private indexElement: HTMLElement;
-  private deleteButton: HTMLButtonElement; 
+  private deleteButton: HTMLButtonElement;
 
   constructor(container: HTMLElement, events: IEvents) {
     super(container, events);

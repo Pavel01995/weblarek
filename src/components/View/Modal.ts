@@ -5,7 +5,7 @@ import { IModalData } from '../../types/index';
 
 
 export class Modal extends Component<IModalData> {
- 
+
   private closeButton: HTMLButtonElement;
   private contentElement: HTMLElement;
 
@@ -13,21 +13,21 @@ export class Modal extends Component<IModalData> {
 
     super(container);
 
-   
+
     this.closeButton = container.querySelector('.modal__close') as HTMLButtonElement;
     this.contentElement = container.querySelector('.modal__content') as HTMLElement;
 
-   
+
     this.closeButton.addEventListener('click', () => this.close());
 
-   
+
     this.container.addEventListener('click', (event) => {
       if (event.target === this.container) {
         this.close();
       }
     });
 
-   
+
     this.contentElement.addEventListener('click', (event) => event.stopPropagation());
   }
 
