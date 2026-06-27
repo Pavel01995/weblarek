@@ -39,7 +39,7 @@ export class Modal extends Component<IModalData> {
 
   open() {
     this.container.classList.add('modal_active');
-    this.events.emit('modal:open');
+
   }
 
   close() {

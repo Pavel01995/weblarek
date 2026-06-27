@@ -1,36 +1,41 @@
-import { CardWithCategory } from "./CardWithCategory";
-import { IEvents } from "../base/Events";
-import { ICardPreviewView } from "../../types";
+// CardPreview.ts
+import { CardWithCategory } from './CardWithCategory';
+import { ICardActions } from '../../types';
+import { ensureElement } from '../../utils/utils';
 
-export class CardPreview extends CardWithCategory<ICardPreviewView> {
-  private descriptionElement: HTMLElement;
-  private buttonElement: HTMLButtonElement;
+export class CardPreview extends CardWithCategory<any> {
+    protected descriptionElement: HTMLElement;
+    protected buttonElement: HTMLButtonElement;
 
-  constructor(container: HTMLElement, events: IEvents) {
-    super(container, events);
+    constructor(container: HTMLElement, actions?: ICardActions) {
+        super(container);
 
-    this.descriptionElement = container.querySelector('.card__text') as HTMLElement;
-    this.buttonElement = container.querySelector('.card__button') as HTMLButtonElement;
+        this.descriptionElement = ensureElement<HTMLElement>('.card__text', container);
+        this.buttonElement = ensureElement<HTMLButtonElement>('.card__button', container);
 
-
-    if (this.buttonElement) {
-      this.buttonElement.addEventListener('click', () => {
-
-        this.events.emit('card:buy', { card: this });
-      });
+        if (actions?.onClick) {
+            this.buttonElement.addEventListener('click', actions.onClick);
+        }
     }
-  }
 
-  set description(value: string) {
-    if (this.descriptionElement) {
-      this.descriptionElement.textContent = value;
+
+    set price(value: number | null) {
+
+        const priceText = value ? `${value} синапсов` : 'Бесценно';
+        const priceElement = this.container.querySelector('.card__price');
+        if (priceElement) priceElement.textContent = priceText;
+
+
+        if (this.buttonElement) {
+            this.buttonElement.disabled = !value;
+        }
     }
-  }
 
-
-  set buttonText(value: string) {
-    if (this.buttonElement) {
-      this.buttonElement.textContent = value;
+    set description(value: string) {
+        this.descriptionElement.textContent = value;
     }
-  }
+
+    set buttonText(value: string) {
+        this.buttonElement.textContent = value;
+    }
 }

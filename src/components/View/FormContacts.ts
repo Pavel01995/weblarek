@@ -13,9 +13,7 @@ export class FormContacts extends Form<IContactFormView> {
         this.phoneInput = container.querySelector('.form__input[name="phone"]') as HTMLInputElement;
 
 
-        this.phoneInput.addEventListener('input', () => {
-            this.phoneInput.value = this.phoneInput.value.replace(/[^\d+]/g, '');
-        });
+
     }
 
 

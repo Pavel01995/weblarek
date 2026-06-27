@@ -1,28 +1,23 @@
 import { Card } from './Card';
-import { IEvents } from '../base/Events';
-import { ICardBasketView } from '../../types';
+import { ICardBasketView, ICardActions } from '../../types';
+import { ensureElement } from '../../utils/utils';
 
 export class CardBasket extends Card<ICardBasketView> {
   private indexElement: HTMLElement;
   private deleteButton: HTMLButtonElement;
 
-  constructor(container: HTMLElement, events: IEvents) {
-    super(container, events);
-    this.indexElement = container.querySelector('.card__index') as HTMLElement;
-    this.deleteButton = container.querySelector('.card__button') as HTMLButtonElement;
+  constructor(container: HTMLElement, actions?: ICardActions) {
+    super(container);
 
+    this.indexElement = ensureElement<HTMLElement>('.basket__item-index', container);
+    this.deleteButton = ensureElement<HTMLButtonElement>('.basket__item-delete', container);
 
-    if (this.deleteButton) {
-      this.deleteButton.addEventListener('click', () => {
-        this.events.emit('card:remove', { card: this });
-      });
+    if (actions?.onClick) {
+      this.deleteButton.addEventListener('click', actions.onClick);
     }
   }
 
-
   set index(value: number) {
-    if (this.indexElement) {
-      this.indexElement.textContent = String(value);
-    }
+    this.indexElement.textContent = String(value);
   }
 }

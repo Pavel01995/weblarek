@@ -79,7 +79,7 @@ export interface ICardPreviewView extends ICardCatalogView {
 }
 
 export interface IOrderFormView {
-  payment: TPayment | null; 
+  payment: TPayment | null;
   address: string;
   errors: string[];
   valid: boolean;
@@ -102,4 +102,8 @@ export interface ISuccessActions {
 
 export interface IModalData {
   content: HTMLElement;
+}
+
+export interface ICardActions {
+  onClick: (event: MouseEvent) => void;
 }

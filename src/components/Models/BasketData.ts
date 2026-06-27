@@ -1,9 +1,9 @@
 import { IProduct } from "../../types/index";
-import{IEvents}from "../base/Events"
+import { IEvents } from "../base/Events"
 
 export class BasketData {
   private items: IProduct[] = [];
-constructor(protected events: IEvents) {}
+  constructor(protected events: IEvents) { }
 
   getItems(): IProduct[] {
     return this.items;
@@ -11,12 +11,12 @@ constructor(protected events: IEvents) {}
 
   addItem(product: IProduct): void {
     this.items.push(product);
-    this.events.emit('basket:changed', { items: this.items });
+    this.events.emit('basket:changed', {});
   }
 
   removeItem(id: string): void {
     this.items = this.items.filter((item) => item.id !== id);
-  this.events.emit('basket:changed', { items: this.items });
+    this.events.emit('basket:changed', { items: this.items });
   }
 
   getAmount(): number {
@@ -31,11 +31,8 @@ constructor(protected events: IEvents) {}
     return this.items.some((item) => item.id === id);
   }
 
-  clearItems(): boolean {
-    if (this.items.length === 0) return false;
-    this.items = [];
-    this.events.emit('basket:changed', { items: this.items });
-    return true;
-    
+  clearItems(): void {
+    this.items = []; 
+    this.events.emit('basket:changed', { items: this.items }); // 2. Сообщаем об изменении
   }
 }

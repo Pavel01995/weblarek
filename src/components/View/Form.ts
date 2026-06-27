@@ -3,8 +3,8 @@ import { IEvents } from '../base/Events';
 
 export abstract class Form<T> extends Component<T> {
     protected submit: HTMLButtonElement;
-    protected errorsElement: HTMLElement; // переименуем поле, чтобы имя не конфликтовало с сеттером errors
-    
+    protected errorsElement: HTMLElement; 
+
     constructor(container: HTMLElement, protected events: IEvents) {
         super(container);
 
@@ -31,11 +31,7 @@ export abstract class Form<T> extends Component<T> {
     }
 
 
-    set buttonAction(onClick: () => void) {
-        if (this.submit && onClick) {
-            this.submit.addEventListener('click', onClick);
-        }
-    }
+
 
 
     set errors(value: string) {

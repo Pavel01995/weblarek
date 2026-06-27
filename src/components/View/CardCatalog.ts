@@ -1,15 +1,13 @@
 import { CardWithCategory } from "./CardWithCategory";
-import { IEvents } from "../base/Events";
-import { ICardCatalogView } from "../../types";
-
+import { ICardCatalogView, ICardActions } from "../../types"; 
 export class CardCatalog extends CardWithCategory<ICardCatalogView> {
-  constructor(container: HTMLElement, events: IEvents) {
-    super(container, events);
+  constructor(container: HTMLElement, actions?: ICardActions) {
+    super(container);
 
-
-    this.container.addEventListener('click', () => {
-
-      this.events.emit('card:select', { card: this });
-    });
+    if (actions?.onClick) {
+      this.container.addEventListener('click', (e) => {
+        actions.onClick(e as MouseEvent);
+      }, true); 
+    }
   }
 }

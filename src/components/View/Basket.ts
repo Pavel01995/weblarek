@@ -1,6 +1,7 @@
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
 import { IBasketView } from '../../types/index';
+import { ensureElement } from '../../utils/utils';
 
 export class Basket extends Component<IBasketView> {
     private listContainer: HTMLElement;
@@ -12,43 +13,25 @@ export class Basket extends Component<IBasketView> {
         super(container);
         this.events = events;
 
+        this.listContainer = ensureElement<HTMLElement>('.basket__list', container);
+        this.totalElement = ensureElement<HTMLElement>('.basket__price', container);
+        this.button = ensureElement<HTMLButtonElement>('.basket__button', container);
 
-        this.listContainer = container.querySelector('.basket__list') as HTMLElement;
-        this.totalElement = container.querySelector('.basket__price') as HTMLElement;
-        this.button = container.querySelector('.basket__button') as HTMLButtonElement;
 
-
-        if (this.button) {
-            this.button.addEventListener('click', () => {
-                this.events.emit('order:open');
-            });
-        }
+        this.button.addEventListener('click', () => {
+            this.events.emit('order:open');
+        });
     }
 
-
     set list(items: HTMLElement[]) {
-
-        this.listContainer.innerHTML = '';
-
-        if (items.length > 0) {
-
-            this.listContainer.append(...items);
-        } else {
-
-            const emptyMessage = document.createElement('span');
-            emptyMessage.textContent = 'Корзина пуста';
-            this.listContainer.append(emptyMessage);
-        }
+        this.listContainer.replaceChildren(...items);
     }
 
     set total(price: number) {
         this.totalElement.textContent = `${price} синапсов`;
     }
 
-
     set locked(value: boolean) {
-        if (this.button) {
-            this.button.disabled = value;
-        }
+        this.button.disabled = value;
     }
 }

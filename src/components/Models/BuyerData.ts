@@ -7,19 +7,20 @@ export class BuyerData {
   private phone: string = "";
   private email: string = "";
 
- 
-  constructor(protected events: IEvents) {}
+  constructor(protected events: IEvents) { }
 
   setBuyerData(data: Partial<IBuyer>): void {
+
     if (data.payment !== undefined) this.payment = data.payment;
     if (data.address !== undefined) this.address = data.address;
     if (data.phone !== undefined) this.phone = data.phone;
     if (data.email !== undefined) this.email = data.email;
 
-  
+
     const errors = this.validateBuyer();
-    
     this.events.emit('buyer:errors', errors);
+    this.events.emit('order:changed', this.getBuyerData());
+    this.events.emit('contacts:changed', this.getBuyerData());
   }
 
   getBuyerData(): IBuyer {
@@ -31,7 +32,6 @@ export class BuyerData {
     };
   }
 
-  
   validateBuyer(): FormErrors {
     const errors: FormErrors = {};
     if (!this.payment) errors.payment = "Выберите способ оплаты";
@@ -46,7 +46,13 @@ export class BuyerData {
     this.address = "";
     this.phone = "";
     this.email = "";
-  
-    this.events.emit('buyer:errors', {});
+    this.events.emit('buyer:reset', {});
   }
+
+
+
+
+
+
+
 }

@@ -1,5 +1,5 @@
 import { Component } from "../base/Component";
-import { ISuccessView, ISuccessActions } from "../../types/index"; // Не забудь импортировать ISuccessActions
+import { ISuccessView, ISuccessActions } from "../../types/index";
 
 export class Success extends Component<ISuccessView> {
     private totalElement: HTMLElement;
