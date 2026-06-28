@@ -25,7 +25,7 @@ export class ProductData {
   set preview(product: IProduct | null) {
     this.previewItem = product;
     if (product) {
-      this.events.emit('preview:changed', { product });
+      this.events.emit('preview:changed');
     }
   }
   getProduct(id: string): IProduct | undefined {

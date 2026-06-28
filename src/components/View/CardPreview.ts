@@ -7,6 +7,7 @@ export class CardPreview extends CardWithCategory<any> {
     protected descriptionElement: HTMLElement;
     protected buttonElement: HTMLButtonElement;
 
+
     constructor(container: HTMLElement, actions?: ICardActions) {
         super(container);
 
@@ -20,15 +21,9 @@ export class CardPreview extends CardWithCategory<any> {
 
 
     set price(value: number | null) {
-
         const priceText = value ? `${value} синапсов` : 'Бесценно';
         const priceElement = this.container.querySelector('.card__price');
         if (priceElement) priceElement.textContent = priceText;
-
-
-        if (this.buttonElement) {
-            this.buttonElement.disabled = !value;
-        }
     }
 
     set description(value: string) {
@@ -38,4 +33,13 @@ export class CardPreview extends CardWithCategory<any> {
     set buttonText(value: string) {
         this.buttonElement.textContent = value;
     }
+
+
+    set buttonDisabled(value: boolean) {
+        if (this.buttonElement) {
+            this.buttonElement.disabled = value;
+        }
+    }
+
+
 }

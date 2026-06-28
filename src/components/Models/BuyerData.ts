@@ -6,6 +6,7 @@ export class BuyerData {
   private address: string = "";
   private phone: string = "";
   private email: string = "";
+  public formErrors: FormErrors = {};
 
   constructor(protected events: IEvents) { }
 
@@ -15,12 +16,8 @@ export class BuyerData {
     if (data.address !== undefined) this.address = data.address;
     if (data.phone !== undefined) this.phone = data.phone;
     if (data.email !== undefined) this.email = data.email;
+    this.events.emit('buyer:changed');
 
-
-    const errors = this.validateBuyer();
-    this.events.emit('buyer:errors', errors);
-    this.events.emit('order:changed', this.getBuyerData());
-    this.events.emit('contacts:changed', this.getBuyerData());
   }
 
   getBuyerData(): IBuyer {
@@ -46,7 +43,7 @@ export class BuyerData {
     this.address = "";
     this.phone = "";
     this.email = "";
-    this.events.emit('buyer:reset', {});
+    this.events.emit('buyer:changed');
   }
 
 
