@@ -20,11 +20,6 @@ export class CardPreview extends CardWithCategory<any> {
     }
 
 
-    set price(value: number | null) {
-        const priceText = value ? `${value} синапсов` : 'Бесценно';
-        const priceElement = this.container.querySelector('.card__price');
-        if (priceElement) priceElement.textContent = priceText;
-    }
 
     set description(value: string) {
         this.descriptionElement.textContent = value;
@@ -36,9 +31,8 @@ export class CardPreview extends CardWithCategory<any> {
 
 
     set buttonDisabled(value: boolean) {
-        if (this.buttonElement) {
-            this.buttonElement.disabled = value;
-        }
+        this.buttonElement.disabled = value;
+
     }
 
 

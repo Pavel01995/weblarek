@@ -173,33 +173,20 @@ events.on('contacts:phone-changed', (data: { value: string }) => {
 
 
 // ЕДИНЫЙ ОБРАБОТЧИК ИЗМЕНЕНИЯ МОДЕЛИ 
+
 events.on('buyer:changed', () => {
   const buyer: IBuyer = buyerData.getBuyerData();
-  const errors: FormErrors = {};
-  const isOrderPristine = !buyer.payment && (!buyer.address || buyer.address.trim() === '');
-  if (!isOrderPristine) {
-    if (!buyer.payment) errors.payment = 'Выберите способ оплаты';
-    if (!buyer.address || buyer.address.trim() === '') errors.address = 'Необходимо указать адрес доставки';
-  }
-  const isContactsPristine = (!buyer.email || buyer.email.trim() === '') && (!buyer.phone || buyer.phone.trim() === '');
-  if (!isContactsPristine) {
-    if (!buyer.email || buyer.email.trim() === '') errors.email = 'Необходимо ввести email';
-    if (!buyer.phone || buyer.phone.trim() === '') errors.phone = 'Необходимо ввести номер телефона';
-  }
+  const errors: FormErrors = buyerData.validateBuyer();
+  const isOrderValid = !errors.payment && !errors.address;
+  const isContactsValid = !errors.email && !errors.phone;
   const orderErrorsList = [errors.payment, errors.address].filter(Boolean) as string[];
   const contactsErrorsList = [errors.email, errors.phone].filter(Boolean) as string[];
-  const isOrderValid = !!buyer.payment && !!buyer.address && orderErrorsList.length === 0;
-  const isContactsValid = !!buyer.email && !!buyer.phone && contactsErrorsList.length === 0;
-
-  // Рендерим форму заказа
   formOrder.render({
     payment: buyer.payment,
     address: buyer.address,
     valid: isOrderValid,
     errors: orderErrorsList
   });
-
-  // Рендерим форму контактов
   formContacts.render({
     email: buyer.email,
     phone: buyer.phone,
@@ -207,6 +194,7 @@ events.on('buyer:changed', () => {
     errors: contactsErrorsList.join('; ')
   });
 });
+
 
 
 // БЛОК 5: ОТПРАВКА И ЗАВЕРШЕНИЕ
@@ -226,11 +214,6 @@ events.on('contacts:submit', () => {
     .catch(console.error);
 });
 
-events.on('buyer:reset', () => {
-  buyerData.clear();
-  formOrder.render({ payment: null, address: '', valid: false, errors: [] });
-  formContacts.render({ email: '', phone: '', valid: false, errors: '' });
-});
 
 
 //  ЗАГРУЗКА ПЕРВИЧНЫХ ДАННЫХ 
